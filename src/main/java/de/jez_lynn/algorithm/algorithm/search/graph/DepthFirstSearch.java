@@ -1,7 +1,7 @@
 package de.jez_lynn.algorithm.algorithm.search.graph;
 
 import de.jez_lynn.algorithm.util.IGraphSearchingAlgo;
-import de.jez_lynn.algorithm.util.Node;
+import de.jez_lynn.algorithm.util.graph.vertex.Vertex;
 
 import java.util.LinkedList;
 
@@ -11,12 +11,12 @@ import java.util.LinkedList;
 public class DepthFirstSearch implements IGraphSearchingAlgo{
     private boolean result = false;
     @Override
-    public boolean search(Node start, Node end) {
+    public boolean search(Vertex start, Vertex end) {
         if(start.equals(end)){
             result = true;
             return result;
         }else{
-            LinkedList<Node> childs = start.childs;
+            LinkedList<Vertex> childs = start.childs();
             while(!childs.isEmpty()){
                 search(childs.pop(), end);
             }

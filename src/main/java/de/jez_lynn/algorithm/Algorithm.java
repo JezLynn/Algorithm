@@ -1,14 +1,14 @@
 package de.jez_lynn.algorithm;
 
 import de.jez_lynn.algorithm.algorithm.GraphSearcher;
+import de.jez_lynn.algorithm.algorithm.PathFinder;
 import de.jez_lynn.algorithm.algorithm.Sorter;
+import de.jez_lynn.algorithm.algorithm.path.BellmanFord;
 import de.jez_lynn.algorithm.algorithm.search.graph.BreathFirstSearch;
 import de.jez_lynn.algorithm.algorithm.search.graph.DepthFirstSearch;
 import de.jez_lynn.algorithm.algorithm.sort.*;
-import de.jez_lynn.algorithm.util.DataExport;
-import de.jez_lynn.algorithm.util.IGraphSearchingAlgo;
-import de.jez_lynn.algorithm.util.ISortingAlgo;
-import de.jez_lynn.algorithm.util.TestGraph;
+import de.jez_lynn.algorithm.util.*;
+import de.jez_lynn.algorithm.util.graph.TestGraph;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -53,16 +53,34 @@ public class Algorithm {
         DataExport.export(results);
     }
 
+    public void findPath(){
+        PathFinder searcher = new PathFinder();
+        IPathFindingAlgo[] algos = new IPathFindingAlgo[]{new BellmanFord()};
+        TestGraph g = new TestGraph();
+
+        for (IPathFindingAlgo a : algos){
+            searcher.setFindingAlgo(a);
+            long[] distance = new long[0];
+            try {
+                distance = searcher.search(g.directedGraph);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(String.format("\n-----------%s--------------", a.getClass().getSimpleName()));
+            System.out.println(Arrays.toString(distance));
+            System.out.println(searcher.getTime());
+        }
+    }
+
     private void search() {
         GraphSearcher searcher = new GraphSearcher();
         IGraphSearchingAlgo[] algos = new IGraphSearchingAlgo[]{new BreathFirstSearch(), new DepthFirstSearch()};
+        TestGraph g = new TestGraph();
 
         for (int i = 0; i < 10; i++) {
             for (IGraphSearchingAlgo a : algos) {
 
                 searcher.setSearchingAlgo(a);
-
-                TestGraph g = new TestGraph();
                 boolean result = searcher.search(g.ONE, g.NINE);
 
                 System.out.println(String.format("\n-----------%s--------------", a.getClass().getSimpleName()));
@@ -75,7 +93,8 @@ public class Algorithm {
 
     public static void main(String[] args) {
         Algorithm a = new Algorithm();
-        a.search();
+        a.findPath();
+        //a.search();
         //a.sort();
     }
 }

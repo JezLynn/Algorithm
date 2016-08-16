@@ -3,7 +3,7 @@ package de.jez_lynn.algorithm.algorithm;
 import com.google.common.base.Stopwatch;
 import de.jez_lynn.algorithm.util.Dummys;
 import de.jez_lynn.algorithm.util.IGraphSearchingAlgo;
-import de.jez_lynn.algorithm.util.Node;
+import de.jez_lynn.algorithm.util.graph.vertex.Vertex;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +26,7 @@ public class GraphSearcher {
         this.searchingAlgo = searchingAlgo;
     }
 
-    public boolean search(Node start, Node end) {
+    public boolean search(Vertex start, Vertex end) {
         watch = Stopwatch.createStarted();
         boolean r = searchingAlgo.search(start, end);
         watch.stop();
