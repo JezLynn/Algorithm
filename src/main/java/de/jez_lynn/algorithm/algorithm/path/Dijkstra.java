@@ -10,7 +10,6 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.TreeSet;
 
 /**
  * Copyright 2016
@@ -60,5 +59,23 @@ public class Dijkstra implements IPathFindingAlgo<WeightedUndirectedGraph> {
             }
             Q.add(new Pair<>(distance[v.id()], v));
         }
+    }
+
+    public String getPath(Vertex start, Vertex end) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(end.name()).reverse();
+        Vertex temp = prev[end.id()];
+        while (temp != null && !temp.equals(start)) {
+            sb.append(String.format(">-%s", new StringBuilder().append(temp.name()).reverse()));
+            temp = prev[temp.id()];
+        }
+
+        if (temp != null && temp.equals(start)) {
+            sb.append(String.format(">-%s", new StringBuilder().append(temp.name()).reverse()));
+        } else {
+            sb = new StringBuilder("Kein Weg gefunden");
+        }
+
+        return sb.reverse().toString();
     }
 }
