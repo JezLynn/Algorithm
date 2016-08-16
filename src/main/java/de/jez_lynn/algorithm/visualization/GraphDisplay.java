@@ -6,6 +6,7 @@ import de.jez_lynn.algorithm.util.graph.TestGraph;
 import de.jez_lynn.algorithm.util.graph.WeightedDirectedGraph;
 import de.jez_lynn.algorithm.util.graph.edge.Edge;
 import de.jez_lynn.algorithm.util.graph.vertex.Vertex;
+import javafx.util.Pair;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
@@ -35,11 +36,14 @@ public class GraphDisplay {
         BellmanFord path = new BellmanFord();
         Vertex source = graphDisplay.graph.vertices().get(2);
         Vertex target = graphDisplay.graph.vertices().get(5);
+
+        Pair<long[], Vertex[]> result = path.findPath((WeightedDirectedGraph) graphDisplay.graph, source);
+
         System.out.println("Die Quelle ist: " + source.name());
-        graphDisplay.update(path.findPath((WeightedDirectedGraph) graphDisplay.graph, source));
+        graphDisplay.update(result.getKey());
         graphDisplay.displayGraph.display();
         System.out.print("Berechne Pfad von " + source.name() + " nach " + target.name() + " : ");
-        System.out.println(path.getPath(source, target));
+        System.out.println(path.getPath(source, target, result.getValue()));
     }
 
     public void update(long[] distance) {

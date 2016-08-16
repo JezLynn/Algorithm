@@ -22,7 +22,7 @@ public class Dijkstra implements IPathFindingAlgo<WeightedUndirectedGraph> {
     private Vertex[] prev;
 
     @Override
-    public long[] findPath(WeightedUndirectedGraph graph, Vertex start) throws Exception {
+    public Pair<long[], Vertex[]> findPath(WeightedUndirectedGraph graph, Vertex start) throws Exception {
         distance = new long[graph.vertices().size()];
         prev = new Vertex[graph.vertices().size()];
 
@@ -37,7 +37,7 @@ public class Dijkstra implements IPathFindingAlgo<WeightedUndirectedGraph> {
                 }
             }
         }
-        return distance;
+        return new Pair<>(distance, prev);
     }
 
     private void update(ArrayList<UndirectedEdge> adj, Vertex u, Vertex v) {
@@ -59,23 +59,5 @@ public class Dijkstra implements IPathFindingAlgo<WeightedUndirectedGraph> {
             }
             Q.add(new Pair<>(distance[v.id()], v));
         }
-    }
-
-    public String getPath(Vertex start, Vertex end) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(end.name()).reverse();
-        Vertex temp = prev[end.id()];
-        while (temp != null && !temp.equals(start)) {
-            sb.append(String.format(">-%s", new StringBuilder().append(temp.name()).reverse()));
-            temp = prev[temp.id()];
-        }
-
-        if (temp != null && temp.equals(start)) {
-            sb.append(String.format(">-%s", new StringBuilder().append(temp.name()).reverse()));
-        } else {
-            sb = new StringBuilder("Kein Weg gefunden");
-        }
-
-        return sb.reverse().toString();
     }
 }

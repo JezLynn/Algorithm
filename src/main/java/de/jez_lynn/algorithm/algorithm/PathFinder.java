@@ -1,14 +1,15 @@
 package de.jez_lynn.algorithm.algorithm;
 
 import com.google.common.base.Stopwatch;
-import de.jez_lynn.algorithm.util.*;
-import de.jez_lynn.algorithm.util.graph.WeightedDirectedGraph;
+import de.jez_lynn.algorithm.util.Dummys;
+import de.jez_lynn.algorithm.util.IPathFindingAlgo;
+import de.jez_lynn.algorithm.util.graph.Graph;
+import de.jez_lynn.algorithm.util.graph.vertex.Vertex;
+import javafx.util.Pair;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by mail on 18.07.2016.
- */
+
 public class PathFinder {
     private IPathFindingAlgo findingAlgo;
     private Stopwatch watch;
@@ -17,17 +18,18 @@ public class PathFinder {
         this(Dummys.PATH_FINDER);
     }
 
-    public PathFinder(IPathFindingAlgo searchingAlgo) {
+    public PathFinder(IPathFindingAlgo<? extends Graph> searchingAlgo) {
         this.findingAlgo = searchingAlgo;
     }
 
-    public void setFindingAlgo(IPathFindingAlgo findingAlgo) {
+    public void setFindingAlgo(IPathFindingAlgo<? extends Graph> findingAlgo) {
         this.findingAlgo = findingAlgo;
     }
 
-    public long[] search(WeightedDirectedGraph g) throws Exception {
+    public long[] search(Graph g) throws Exception {
         watch = Stopwatch.createStarted();
-        long[] distance = findingAlgo.findPath(g, g.vertices().getFirst());
+        Pair<long[], Vertex[]> r = findingAlgo.findPath(g, ((Vertex) g.vertices().getFirst()));
+        long[] distance = r.getKey();
         watch.stop();
         return distance;
     }

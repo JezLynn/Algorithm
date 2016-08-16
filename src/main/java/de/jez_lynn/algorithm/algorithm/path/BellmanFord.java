@@ -5,6 +5,7 @@ import de.jez_lynn.algorithm.util.graph.WeightedDirectedGraph;
 import de.jez_lynn.algorithm.util.graph.edge.DirectedEdge;
 import de.jez_lynn.algorithm.util.graph.edge.Edge;
 import de.jez_lynn.algorithm.util.graph.vertex.Vertex;
+import javafx.util.Pair;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class BellmanFord implements IPathFindingAlgo<WeightedDirectedGraph> {
 
 
     @Override
-    public long[] findPath(WeightedDirectedGraph graph, Vertex source) throws Exception {
+    public Pair<long[], Vertex[]> findPath(WeightedDirectedGraph graph, Vertex source) throws Exception {
         List<Vertex> vertices = graph.vertices();
         List<DirectedEdge> edges = graph.edges();
 
@@ -46,25 +47,7 @@ public class BellmanFord implements IPathFindingAlgo<WeightedDirectedGraph> {
                     throw new Exception("GraphDisplay contains a negativ-weight cycle");
         }
 
-        return dist;
-    }
-
-    public String getPath(Vertex start, Vertex end) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(end.name()).reverse();
-        Vertex temp = prev[end.id()];
-        while (temp != null && !temp.equals(start)) {
-            sb.append(String.format(">-%s", new StringBuilder().append(temp.name()).reverse()));
-            temp = prev[temp.id()];
-        }
-
-        if (temp != null && temp.equals(start)) {
-            sb.append(String.format(">-%s", new StringBuilder().append(temp.name()).reverse()));
-        } else {
-            sb = new StringBuilder("Kein Weg gefunden");
-        }
-
-        return sb.reverse().toString();
+        return new Pair<>(dist, prev);
     }
 
     private boolean willAdditionOverflow(long left, long right) {
